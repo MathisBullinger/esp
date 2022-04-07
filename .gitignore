@@ -1,2 +1,10 @@
 .vscode
 *.exe
+cmake*
+CMake*
+!CmakeLists.txt
+*.vcxproj*
+*.sln
+/Win*
+/Debug
+/*.dir

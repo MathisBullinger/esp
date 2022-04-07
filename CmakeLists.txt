@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.5)
+set(CMAKE_CXX_STANDARD 20)
+
+project(navmesh LANGUAGES CXX)
+
+SET(BASEPATH "${CMAKE_SOURCE_DIR}")
+INCLUDE_DIRECTORIES("${BASEPATH}/src")
+
+add_executable(${PROJECT_NAME} 
+  src/main.cpp
+)

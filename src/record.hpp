@@ -23,6 +23,12 @@ public:
     delete[] data;
   }
 
+  static void skip(const File& file) {
+    file.seekBy(4);
+    auto size = file.read<uint32_t>();
+    file.seekBy(10 + 2 * 3 + size);
+  }
+
   void printInfo() const {
     cout << "Record of type " << getType() << " (" << size << " bytes)" <<  endl;
     cout << "record ID: " << recordID << endl;
