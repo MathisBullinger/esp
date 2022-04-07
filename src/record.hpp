@@ -6,9 +6,10 @@ using namespace std;
 
 class Record {
 public:
-  Record(const File& file) : file{file} {
+  Record(File& file) : file{file} {
     file.read(type[0], 4);
     file.read(size);
+    file.seekBy(4);
     file.read(flags);
     file.read(recordID);
     file.read(timeStamp);
@@ -68,9 +69,9 @@ public:
   }
   
 private:
-  const File& file;
+  File& file;
   char type[4];
-  uint32_t size;
+  uint32_t size = 0;
   uint32_t flags;
   uint32_t recordID;
   uint16_t timeStamp;

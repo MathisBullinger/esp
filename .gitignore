@@ -1,4 +1,5 @@
-.vscode
+.vscode/*
+!.vscode/c_cpp_properties
 *.exe
 cmake*
 CMake*
@@ -8,3 +9,4 @@ CMake*
 /Win*
 /Debug
 /*.dir
+Makefile
