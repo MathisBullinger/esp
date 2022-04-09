@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string.h>
 #include "./file.hpp"
 
 using namespace std;
@@ -9,7 +10,7 @@ public:
   Record(File& file) : file{file} {
     file.read(type[0], 4);
     file.read(size);
-    file.seekBy(4);
+    if (getType() == "GRUP") size -= 24;
     file.read(flags);
     file.read(recordID);
     file.read(timeStamp);
@@ -38,6 +39,7 @@ public:
     printFlag(Flag::esm);
     printFlag(Flag::localized);
     printFlag(Flag::compressed);
+    cout << endl;
   }
 
   enum class Flag : uint32_t {

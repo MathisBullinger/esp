@@ -1,6 +1,7 @@
 .vscode/*
 !.vscode/c_cpp_properties
 *.exe
+navmesh
 cmake*
 CMake*
 !CmakeLists.txt

@@ -13,6 +13,7 @@ public:
   File(const std::string& path) {
     file = fopen(path.c_str(), "rb");
     if (!file) std::cerr << "couldn't open file: " << path << std::endl;
+    initialSize = getSize();
   };
 
   ~File() {
@@ -64,15 +65,28 @@ public:
   }
 
   bool atEnd() {
-    return feof(file);
+    return ftell(file) >= initialSize;
+  }
+
+  long getSize() {
+    auto pos = ftell(file);
+    fseek(file, 0, SEEK_END);
+    auto size = ftell(file);
+    fseek(file, pos, SEEK_SET);
+    return size;
+  }
+
+  float getProgress() {
+    return (float)ftell(file) / getSize();
   }
 
 private:
   FILE* file;
+  long initialSize = 0;
 
   template <typename T>
   void readData(T* mem, size_t elementCount) const {
-    if constexpr (std::endian::native == std::endian::big)
+    if constexpr (std::endian::native == std::endian::little)
       fread(mem, sizeof (T), elementCount, file);
     else
       readLittleEndian(mem, elementCount);
