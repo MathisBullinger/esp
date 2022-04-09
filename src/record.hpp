@@ -1,7 +1,10 @@
 #pragma once
 
 #include <string.h>
+#include <utility>
 #include "./file.hpp"
+
+typedef std::pair<int16_t, int16_t> Coords;
 
 class Record {
 public:
@@ -15,15 +18,27 @@ public:
   };
 
   static void skip(const File& file);
-  void printInfo() const;
+  void printInfo();
 
   bool getFlag(Flag flag) const;
   std::string getTime() const;
   std::string getType() const;
   uint32_t getSize() const;
+  std::string getGroupName() const;
+  bool isGroup() const;
+  
+  template <typename T>
+  T getLabel() {
+    if constexpr (std::is_same<T, std::string>::value)
+      return reinterpret_cast<char*>(&flags);
+
+    return *reinterpret_cast<T*>(&flags);
+  }
   
 private:
   File& file;
+  long filePos;
+  
   char type[4];
   uint32_t size = 0;
   uint32_t flags;
@@ -31,6 +46,7 @@ private:
   uint16_t timeStamp;
   uint8_t* data = nullptr;
 
-  void printFlags() const;
-  void printFlag(Flag flag) const;
+  void printFlags();
+  void printFlag(Flag flag);
+  void printLabel();
 };

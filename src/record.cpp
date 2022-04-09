@@ -1,9 +1,10 @@
 #include "./record.hpp"
 
 Record::Record(File& file) : file{file} {
+  filePos = file.getPosition();
   file.read(type[0], 4);
   file.read(size);
-  if (getType() == "GRUP") size -= 24;
+  if (isGroup()) size -= 24;
   file.read(flags);
   file.read(recordID);
   file.read(timeStamp);
@@ -42,6 +43,10 @@ std::string Record::getType() const {
   return strType;
 }
 
-uint32_t  Record::getSize() const {
+uint32_t Record::getSize() const {
   return size;
+}
+
+bool Record::isGroup() const {
+  return type[0] == 'G' && type[1] == 'R' && type[2] == 'U' && type[3] == 'P';
 }

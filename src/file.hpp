@@ -76,6 +76,10 @@ public:
     return size;
   }
 
+  long getPosition() {
+    return ftell(file);
+  }
+
   float getProgress() {
     return (float)ftell(file) / getSize();
   }
